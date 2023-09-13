@@ -1,0 +1,65 @@
+#you will use a neural network to recognize the hand-written digits 0-9
+#importing libraries
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.activations import linear, relu, sigmoid
+%matplotlib widget
+import matplotlib.pyplot as plt
+plt.style.use('./deeplearning.mplstyle')
+
+import logging
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+tf.autograph.set_verbosity(0)
+
+from public_tests import * 
+
+from autils import *
+from lab_utils_softmax import plt_softmax
+np.set_printoptions(precision=2)
+
+
+#ReLU Activation
+plt_act_trio()
+
+#Softmax Function
+def my_softmax(z):  
+    """ Softmax converts a vector of values to a probability distribution.
+    Args:
+      z (ndarray (N,))  : input data, N features
+    Returns:
+      a (ndarray (N,))  : softmax of z
+    """    
+    ### START CODE HERE ### 
+    
+    
+    N = len(z)
+    a = np.zeros(N)
+    ez_sum = 0
+    for k in range(N):                
+        ez_sum += np.exp(z[k])       
+    for j in range(N):                
+        a[j] = np.exp(z[j])/ez_sum  
+
+   
+        
+    
+        
+    
+    
+    ### END CODE HERE ### 
+    return a
+
+z = np.array([1., 2., 3., 4.])
+a = my_softmax(z)
+atf = tf.nn.softmax(z)
+print(f"my_softmax(z):         {a}")
+print(f"tensorflow softmax(z): {atf}")
+
+# BEGIN UNIT TEST  
+test_my_softmax(my_softmax)
+# END UNIT TEST  
+
+plt.close("all")
+plt_softmax(my_softmax)
